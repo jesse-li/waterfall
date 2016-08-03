@@ -4,6 +4,7 @@ var Waterfall=function(option){
 	this.layout = option.layout;//几分布局
 	this.top = option.top;//上间距
 	this.left = option.left;//左间距
+	this.heightMode = option.heightMode;
 	this.init();
 }
 Waterfall.prototype={
@@ -58,15 +59,17 @@ Waterfall.prototype={
 					left:i*_this.obody.children().width()+i*left
 				})
 			}else{//其他行的处理
-				for(var _i=0,_j=_this.topArr.length;_i<_j;_i+=1){//循环比较计算出最小的height
-					(function(__i){
-						if(_this.topArr[__i].height<_this.minObj.height){//更新minobj[]和minindex
-						_this.minObj=_this.topArr[__i];
-						_this.minindex=__i
+				if(_this.heightMode){
+					for(var _i=0,_j=_this.topArr.length;_i<_j;_i+=1){//循环比较计算出最小的height
+						(function(__i){
+							if(_this.topArr[__i].height<_this.minObj.height){//更新minobj[]和minindex
+								_this.minObj=_this.topArr[__i];
+								_this.minindex=__i
+							}
+						})(_i)
 					}
-					})(_i)
-					
 				}
+				
 				_this.obody.children().eq(i).css({
 						top:_this.minObj.height+_this.top,
 						left:_this.minObj.obj.css("left")
